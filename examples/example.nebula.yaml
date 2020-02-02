@@ -1,0 +1,94 @@
+version: 0.1
+playlists:
+- name: "bottom"
+  layer: 1
+  items:
+  - type: "label"
+    name: "one"
+    sync: true
+  - type: "video"
+    path: "/data/one.mp4"
+  - type: "label"
+    name: "two"
+  - type: "control"
+    command: "goto"
+    value: "one"
+    targets:
+    - type: "playlist"
+      name: "top"
+  - type: "video"
+    path: "/data/two.mp4"
+  - type: "label"
+    name: "three"
+  - type: "control"
+    command: "goto"
+    value: "one"
+    targets:
+    - type: "playlist"
+      name: "top"
+  - type: "video"
+    path: "/data/three.mp4"
+    loop: true
+- name: "top"
+  layer: 2
+  items:
+  - type: "label"
+    name: "one"
+  - type: "image"
+    path: "/data/one.png"
+  - type: "label"
+    name: "two"
+  - type: "image"
+    path: "/data/two.png"
+  - type: "label"
+    name: "three"
+  - type: "image"
+    path: "/data/three.png"
+projectors:
+- ip: "10.81.8.24"
+  password: "panasonic1"
+  name: "stage-left"
+- ip: "10.81.8.25"
+  password: "panasonic1"
+  name: "stage-right"
+art-net:
+- universe: 0
+  channel: 1
+  selector:
+    spacing: 10
+    start: 0
+    # Controls is the list of commands
+    controls:
+    - command: "goto"
+      value: "main"
+      # Targets is used to filter where this command is sent
+      targets:
+      - type: "layer"
+        name: "top"
+      - type: "layer"
+        name: "bottom"
+    - command: "goto"
+      value: "aux"
+      targets:
+      # Can just specify a target type to send to all targets of that type 
+      - type: "layer"
+- universe: 0
+  channel: 2
+  trigger:
+    start: 127
+    end: 255
+    controls:
+    - item
+- universe: 0
+  channel: 3
+  fader:
+    start: 0
+    end: 255
+    controls:
+    - "layer1"
+gpio:
+- pin: 18
+  trigger:
+    delay: 10
+    controls:
+    - item
